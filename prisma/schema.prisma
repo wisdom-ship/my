@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Rest of the schema remains unchanged
+model User {
+  id                String      @id @default(uuid())
+  email             String      @unique
+  password          String
+  firstName         String
+  lastName          String
+  twoFactorSecret   String?
+  antiPhishingCode  String?
+  isVerified        Boolean     @default(false)
+  kycStatus         KYCStatus   @default(PENDING)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  wallets           Wallet[]
+  trades            Trade[]
+  orders            Order[]
+  documents         Document[]
+  supportTickets    Ticket[]
+  apiKeys           ApiKey[]
+}
+
+// ... rest of the models remain the same ...
